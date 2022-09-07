@@ -1,0 +1,37 @@
+name: Build and deploy
+
+on:
+    push:
+        branches:
+            - master
+        paths-ignore:
+            - '**/README.md'
+    workflow_dispatch:
+    schedule:
+        - cron:  '0 2 * * 1' # Once a week at 02:00 on Monday
+
+jobs:
+    build_and_deploy:
+        name: Build and deploy
+
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v2
+
+            -   name: Build
+                run: make php
+
+            -   name: Test
+                run: make test-php
+
+            -   name: Log in to the Container registry
+                uses: docker/login-action@v2
+                with:
+                    registry: ghcr.io
+                    username: ${{ github.actor }}
+                    password: ${{ secrets.GITHUB_TOKEN }}
+
+            -   name: Deploy
+                run: make deploy
