@@ -2,7 +2,7 @@
 
 <br>
 
-[![Github Workflow](https://github.com/phpsword/docker-images/workflows/Build/badge.svg)](https://github.com/phpsword/docker-images/actions)
+[![Github Workflow](https://github.com/phpsword/docker-images/workflows/Build%20and%20deploy/badge.svg)](https://github.com/phpsword/docker-images/actions)
 
 # Sword Docker images
 
@@ -14,11 +14,10 @@ Check the documentation for more info: https://getsword.com
 
 Production version is bundled with:
 
-* OPcache
-* Cachetool (clear OPcache from CLI)
-* Redis
+* Cachetool
+* Redis with igbinary
 
-Additionally, development version suffixed with `-dev` is bundled with same tools as production image, and:
+Additionally, development version suffixed with `-dev` is bundled with the same tools as production image, and:
 
 * Git
 * Xdebug 3
