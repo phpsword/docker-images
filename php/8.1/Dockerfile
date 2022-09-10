@@ -1,5 +1,8 @@
 FROM williarin/php:8.1-fpm
 
+ARG TARGETPLATFORM
+ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
+
 RUN set -eux; \
     wget -O cachetool https://gordalina.github.io/cachetool/downloads/cachetool-8.4.1.phar; \
     chmod +x cachetool; \
@@ -19,17 +22,21 @@ RUN set -eux; \
         php81-session \
         php81-pecl-imagick \
     ; \
-    apk add --no-cache --virtual .build-deps autoconf re2c gcc make g++ zlib-dev php81-dev; \
-    pear81 update-channels; \
-    pecl81 update-channels; \
-    pecl81 install --onlyreqdeps --nobuild redis; \
-    pecl81 install igbinary; \
-    cd "$(pecl81 config-get temp_dir)/redis"; \
-    phpize81; \
-    ./configure --enable-redis-igbinary --with-php-config=/usr/bin/php-config81; \
-    echo "extension=igbinary" > /etc/php81/conf.d/00_igbinary.ini; \
-    echo "extension=redis" > /etc/php81/conf.d/03_redis.ini; \
-    make && make install; \
-    apk del .build-deps;
+    if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
+        apk add --no-cache --virtual .build-deps autoconf re2c gcc make g++ zlib-dev php81-dev; \
+        pear81 update-channels; \
+        pecl81 update-channels; \
+        pecl81 install --onlyreqdeps --nobuild redis; \
+        pecl81 install igbinary; \
+        cd "$(pecl81 config-get temp_dir)/redis"; \
+        phpize81; \
+        ./configure --enable-redis-igbinary --with-php-config=/usr/bin/php-config81; \
+        echo "extension=igbinary" > /etc/php81/conf.d/00_igbinary.ini; \
+        echo "extension=redis" > /etc/php81/conf.d/03_redis.ini; \
+        make && make install; \
+        apk del .build-deps; \
+    else \
+        apk add --no-cache php81-pecl-igbinary php81-pecl-redis; \
+    fi
 
 WORKDIR /var/www/html
