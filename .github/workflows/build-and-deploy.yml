@@ -6,6 +6,11 @@ on:
             - master
         paths-ignore:
             - '**/README.md'
+    pull_request:
+        branches:
+            - master
+        paths-ignore:
+            - 'README.md'
     workflow_dispatch:
     schedule:
         - cron:  '0 2 * * 1' # Once a week at 02:00 on Monday
@@ -17,16 +22,25 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
+
             -   name: Checkout
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
-            -   name: Build
-                run: make php
+            -   name: Set up QEMU
+                uses: docker/setup-qemu-action@v2
 
-            -   name: Test
-                run: make test-php
+            -   name: Set up Docker Buildx
+                id: buildx
+                uses: docker/setup-buildx-action@v2
+
+            -   name: Build and test
+                if: github.ref != 'refs/heads/master'
+                run: |
+                    make LOCAL=1
+                    make php
 
             -   name: Log in to the Container registry
+                if: github.ref == 'refs/heads/master'
                 uses: docker/login-action@v2
                 with:
                     registry: ghcr.io
@@ -34,4 +48,5 @@ jobs:
                     password: ${{ secrets.GITHUB_TOKEN }}
 
             -   name: Deploy
-                run: make deploy
+                if: github.ref == 'refs/heads/master'
+                run: make DEPLOY=1 php
