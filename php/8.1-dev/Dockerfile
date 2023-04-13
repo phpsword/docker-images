@@ -4,7 +4,7 @@ ARG TARGETPLATFORM
 ENV TARGETPLATFORM=${TARGETPLATFORM:-linux/amd64}
 
 RUN set -eux; \
-    wget -O cachetool https://gordalina.github.io/cachetool/downloads/cachetool-8.4.1.phar; \
+    wget -O cachetool https://gordalina.github.io/cachetool/downloads/cachetool.phar; \
     chmod +x cachetool; \
     mv cachetool /usr/local/bin/cachetool; \
     apk update; \

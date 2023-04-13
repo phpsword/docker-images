@@ -30,3 +30,5 @@ Additionally, development version suffixed with `-dev` is bundled with the same 
 | ------ |
 | ghcr.io/phpsword/php:8.1     |
 | ghcr.io/phpsword/php:8.1-dev |
+| ghcr.io/phpsword/php:8.2     |
+| ghcr.io/phpsword/php:8.2-dev |
