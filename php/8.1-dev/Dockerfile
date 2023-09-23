@@ -26,7 +26,7 @@ RUN set -eux; \
         apk add --no-cache --virtual .build-deps autoconf re2c gcc make g++ zlib-dev php81-dev; \
         pear81 update-channels; \
         pecl81 update-channels; \
-        pecl81 install --onlyreqdeps --nobuild redis; \
+        pecl81 install --onlyreqdeps --nobuild redis-5.3.7; \
         pecl81 install igbinary; \
         cd "$(pecl81 config-get temp_dir)/redis"; \
         phpize81; \
