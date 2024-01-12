@@ -10,7 +10,7 @@ This images are intented to be used with a Sword application.
 
 Check the documentation for more info: https://getsword.com
 
-## PHP 8.1 for production and development
+## PHP images for production and development
 
 Production version is bundled with:
 
@@ -32,3 +32,5 @@ Additionally, development version suffixed with `-dev` is bundled with the same 
 | ghcr.io/phpsword/php:8.1-dev |
 | ghcr.io/phpsword/php:8.2     |
 | ghcr.io/phpsword/php:8.2-dev |
+| ghcr.io/phpsword/php:8.3     |
+| ghcr.io/phpsword/php:8.3-dev |
