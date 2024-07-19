@@ -9,6 +9,8 @@ RUN set -eux; \
     mv cachetool /usr/local/bin/cachetool; \
     apk update; \
     apk add --no-cache \
+        --repository=https://dl-cdn.alpinelinux.org/alpine/v3.19/community \
+        --repository=https://dl-cdn.alpinelinux.org/alpine/v3.19/main \
         sudo \
         less \
         mysql-client \
@@ -23,7 +25,10 @@ RUN set -eux; \
         php81-pecl-imagick \
     ; \
     if [ "$TARGETPLATFORM" = "linux/amd64" ]; then \
-        apk add --no-cache --virtual .build-deps autoconf re2c gcc make g++ zlib-dev php81-dev; \
+        apk add --no-cache \
+            --repository=https://dl-cdn.alpinelinux.org/alpine/v3.19/community \
+            --repository=https://dl-cdn.alpinelinux.org/alpine/v3.19/main \
+            --virtual .build-deps autoconf re2c gcc make g++ zlib-dev php81-dev; \
         pear81 update-channels; \
         pecl81 update-channels; \
         pecl81 install --onlyreqdeps --nobuild redis-5.3.7; \
@@ -36,7 +41,10 @@ RUN set -eux; \
         make && make install; \
         apk del .build-deps; \
     else \
-        apk add --no-cache php81-pecl-igbinary php81-pecl-redis; \
+        apk add --no-cache \
+            --repository=https://dl-cdn.alpinelinux.org/alpine/v3.19/community \
+            --repository=https://dl-cdn.alpinelinux.org/alpine/v3.19/main \
+            php81-pecl-igbinary php81-pecl-redis; \
     fi
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
